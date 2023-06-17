@@ -1,0 +1,19 @@
+30 %Lowest cycle pressure [bar] i.e. compressor inlet pressure 
+304 %Highest cycle pressure [bar] i.e. compressor outlet pressure
+1450 %Highest cycle temperature [K] i.e. turbine inlet temperature
+302.15 %Lowest cycle temperature [K] i.e. compressor inlet temperature
+10 %PPTD [K] i.e. minimum permissible temperature difference between the hot and cold lines in the recuperator
+0.9973 %HEX pressure recovery ratio HP side [-]
+0.97 %HEX pressure recovery ratio LP side [-]
+0.99 %Combustor pressure recovery ratio [-]
+80 %Isentropic efficiency of compression process [%]
+95 %Isentropic efficiency of expansion process [%]
+99.5 %Combustion efficiency [%]
+4 %Number of intercooled compression steps [-]
+1073.15 %Maximum allowable blade metal temperature [K]
+44.00095 %Molar mass of CO<sub>2</sub> [g/mol]
+18.0153 %Molar mass of H<sub>2</sub>O [g/mol]
+2.01588%Molar mass of H<sub>2</sub>  [g/mol]
+31.9988 %Molar mass of O<sub>2</sub>  [g/mol]
+%Molar LHV of fuel (H<sub>2</sub>)  [MJ/mole]
+%Molar HHV of fuel (H<sub>2</sub>)  [MJ/mole]
