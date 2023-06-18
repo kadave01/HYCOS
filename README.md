@@ -57,6 +57,3 @@ The `input.dat` should contain the following thermodynamic parameters.
 | HP      | High pressure|
 | LP      | Low pressure|
 
-
-
-
