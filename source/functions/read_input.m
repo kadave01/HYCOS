@@ -1,7 +1,3 @@
-%%
-close all
-clear all
-clc
 %% Read the input.dat file
 filename = 'input.dat';
 fid = fopen(filename, 'r');
@@ -27,7 +23,6 @@ fclose(fid);
 
 %% define global variable
 global coupling_vars
-
 %%design variables
 coupling_vars.Pressure.P1 = data(1)*1E5;        %compressor inlet 
 coupling_vars.Pressure.P2 =  data(2)*1E5;       %compressor outlet 
@@ -52,15 +47,19 @@ coupling_vars.constants.LHV_h2 = 241.826E3/coupling_vars.constants.h2_mol_mass; 
 %% Exit criteria
 coupling_vars.constants.PPTD_error = 1e-1;
 coupling_vars.constants.mol_fraction_error = 1E-6;
-
 %% intialization
 coupling_vars.local_constants.HEX_eff= [];
-coupling_vars.control_vars.PPTD_tracker = [];
-
+coupling_vars.local_constants.PPTD_tracker = [];
+coupling_vars.local_constants.Mixture.mol_frac_CO2 = 0.98;
+coupling_vars.local_constants.coolant_fraction = 0.10751;
+coupling_vars.local_constants.Mixture.HEX_inlet.x_co2 = [];
+coupling_vars.local_constants.Mixture.HEX_inlet.x_h2o = [];
+coupling_vars.local_constants.Mixture.HEX_inlet.y_co2 = [];
+coupling_vars.local_constants.Mixture.HEX_inlet.y_h2o = [];
+coupling_vars.local_constants.check = [];
 %% internally computed parameters
 coupling_vars.Pressure.CPR = coupling_vars.Pressure.P2/coupling_vars.Pressure.P1;        %Cycle(compression) pressure ratio
 coupling_vars.constants.compressor_massflow = 1;%147.060740463587
-
 %% calculated pressures
 coupling_vars.Pressure.P2 = coupling_vars.Pressure.P1 * coupling_vars.Pressure.CPR;     %compressor outlet
 coupling_vars.Pressure.P3 = coupling_vars.Pressure.P2;      %heat exchanger inlet
@@ -73,14 +72,10 @@ coupling_vars.Pressure.P11 = coupling_vars.Pressure.P12/coupling_vars.constants.
 coupling_vars.Pressure.P10 = coupling_vars.Pressure.P11;       %heat exchanger outlet
 coupling_vars.Pressure.P9 = coupling_vars.Pressure.P10/coupling_vars.constants.HEX_pressure_recovery_lp;       %heat exchanger inlet
 coupling_vars.Pressure.P8 = coupling_vars.Pressure.P9;     %turbine outlet
-
 %% massaflow
 coupling_vars.mass_flow.M1 = coupling_vars.constants.compressor_massflow;
 coupling_vars.mass_flow.M2 = coupling_vars.mass_flow.M1;
-
-
-
-%%
+%% Setting reference temperature and pressue in CoolProp
 T_ref = coupling_vars.Temperature.T1; %[K]
 P_ref = coupling_vars.Pressure.P5; %[Pa]
 h_ref = 0; %[J/mol]
