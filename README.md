@@ -15,6 +15,9 @@ To run the source code,following are the requisites:
 
 A quick way to test if the installations are successful is to just run the `main.m` file.
 
+## Model assumptions
+
+
 ## I/O format
 The script expects a set of user defined parameters in the `input.dat` file and generates `output.dat` file containing the evaluated performance parameter of for the given cycle configuration. The output files can be further analyzed by `utils/plot.m`. To run the model, ensure a valid `input.dat` file is provided and then execute `main.m` 
 
@@ -34,7 +37,7 @@ The `input.dat` should contain the following thermodynamic parameters.
 - Isentropic efficiency of expansion process [%]
 - Combustion efficiency [%]
 - Number of intercooled compression steps [-]
-- Maximum allowable blade metal temperature [K]
+- Maximum allowable blade metal temperature for turbine cooling model [K]
 - Molar mass of CO<sub>2</sub> [g/mol]
 - Molar mass of H<sub>2</sub>O [g/mol]
 - Molar mass of H<sub>2</sub>  [g/mol]
@@ -46,7 +49,6 @@ The `input.dat` should contain the following thermodynamic parameters.
 - Permissible error in PPTD calculation [-]
 - Permissible error in mixture composition calculation [-]
 
-
 ## Acronyms
 
 | Acronym | Definition                   |
@@ -56,4 +58,9 @@ The `input.dat` should contain the following thermodynamic parameters.
 | HEX     | Heat Exchanger|
 | HP      | High pressure|
 | LP      | Low pressure|
+| LHV     | Lower heating value |
+| HHV     | Hower heating value |
+
+
+## References
 
