@@ -1,3 +1,4 @@
+function [coupling_vars] = read_input()
 %% Read the input.dat file
 filename = 'input.dat';
 fid = fopen(filename, 'r');
@@ -84,3 +85,4 @@ py.CoolProp.CoolProp.set_reference_state('CO2',T_ref,py.CoolProp.CoolProp.PropsS
 py.CoolProp.CoolProp.set_reference_state('H2O',T_ref,py.CoolProp.CoolProp.PropsSI('Dmolar','P',P_ref,'T',T_ref,'H2O'),h_ref,s_ref);
 py.CoolProp.CoolProp.set_reference_state('O2',T_ref,py.CoolProp.CoolProp.PropsSI('Dmolar','P',P_ref,'T',T_ref,'O2'),h_ref,s_ref);
 py.CoolProp.CoolProp.set_reference_state('H2',T_ref,py.CoolProp.CoolProp.PropsSI('Dmolar','P',P_ref,'T',T_ref,'H2'),h_ref,s_ref);
+end

@@ -1,4 +1,4 @@
-function [coupling_vars] = ic_compressor(coupling_vars)
+function [coupling_vars] = ic_compressor()
     global coupling_vars
     %% Inputs
     P_inlet = coupling_vars.Pressure.P1;
