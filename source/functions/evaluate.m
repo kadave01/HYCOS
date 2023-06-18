@@ -14,4 +14,6 @@ while abs(coupling_vars.local_constants.check(end)/coupling_vars.local_constants
 end
 coupling_vars = condensor();
 coupling_vars = perfromance();
+output_writer();
 end
+

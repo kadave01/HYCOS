@@ -9,7 +9,7 @@ while ~feof(fid)
     line = fgetl(fid);
     
     % Extract the value part of the line using regular expressions
-    value_str = regexprep(line, '\s*%.*', '');  % Remove spaces and everything after '%'
+    value_str = regexprep(line, '\s*##.*', '');  % Remove spaces and everything after '##'
     
     % Process the value part of the line as data
     value = str2double(value_str);  % convert to numeric if needed
