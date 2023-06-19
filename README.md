@@ -45,11 +45,13 @@ Henri Werij, Faculty of Aerospace Engineering, Technische Universiteit Delft.
 
 
 ## Model assumptions
-- 
-- 
-- 
--
--
+
+1. Compression and expansions are adiabatic processes of specified isentropic efficiency.
+2. Half of the turbine cooling flow is assumed to be mixed before expansion and the remaining half is mixed after expansion. The mixing process is assumed to cause no pressure loss to the main stream of flue gases. 
+
+    ***NOTE: Thus, for TIT and TOT in conventional terms, use combustor outlet temperature and recuperator LP side inlet temperature respectively.***
+3. Fuel/oxidizer are available at the site in pre-compressed state at ambient temperature.
+4. Flue gas mixture is treated as an ideal mixture of real gases i.e. an ideal mixture of CO<sub>2</sub> and H<sub>2</sub>O and the real gas effects are included only for the individual components.
 
 
 ## I/O format
@@ -114,3 +116,12 @@ Line 3: Comma separated values of key performance parameters
 | LP      | Low pressure|
 | LHV     | Lower heating value |
 | HHV     | Higher heating value |
+
+## Additional functionalities
+
+The author have developed the following additional functionalities using the base code provided in this repository. 
+
+1. Optimization module using the MATLAB Optimization Toolbox
+2. Sensitivity module
+
+Please contact the author @ [kaushal.atul.dave@gmail.com](kaushal.atul.dave@gmail.com) if your are interested in exploring these modules. 
