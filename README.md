@@ -1,7 +1,7 @@
 # HYCOS (`Hy`drogen `CO`mbustion in `S`upercritical CO<sub>2</sub>)
 
 ## About
-This repository contains a MATLAB   model developed at the Technische Universiteit Delft for thermodynamic assessment of the HYCOS cycle which is a transcritical/supercritical CO<sub>2</sub> Brayton cycle fueled by H<sub>2</sub>/O<sub>2</sub> combustion. This cycle is proposed for use in H<sub>2</sub> based energy storage and reconversion systems at distributed scales/energy islands and enables an accelerated transition in the energy market. 
+This repository contains a MATLAB   model developed at the Technische Universiteit Delft for thermodynamic assessment of the HYCOS cycle which is a transcritical/supercritical CO<sub>2</sub> Brayton cycle fueled by H<sub>2</sub>/O<sub>2</sub> combustion. This cycle is proposed for use in H<sub>2</sub> based energy storage and reconversion systems for distributed power generation/energy islands. 
 
 More details about the HYCOS concept can be found in my [publication]()  and in my [MSc thesis report](https://repository.tudelft.nl/islandora/object/uuid%3Aaaa684ff-d22c-4482-bb2e-bbbd74336ab1) available at the TU Delft repository.    
 
@@ -56,7 +56,8 @@ Henri Werij, Faculty of Aerospace Engineering, Technische Universiteit Delft.
 When executing `main.m` ensure a valid `input.dat` file is available in the source folder. The script then generates `output.dat` file containing the evaluated performance parameter of the HYCOS cycle for the defined configuration. Any desired configuration of the HYCOS cycle can be analyzed by editing the parameters in the `input.dat` file. 
 
 ## Input file
-The `input.dat` should contain the following thermodynamic parameters. 
+The `input.dat` should contain the following thermodynamic parameters as individual line items. 
+```
 ### Main variables
 - Lowest cycle pressure [bar] i.e. compressor inlet pressure 
 - Highest cycle pressure [bar] i.e. compressor outlet pressure
@@ -82,8 +83,25 @@ The `input.dat` should contain the following thermodynamic parameters.
 ### Exit criteria and other variables
 - Permissible error in PPTD calculation [-]
 - Permissible error in mixture composition calculation [-]
+```
+### Important note
+Ensure the order in which these parameters are provided is same as in the sample `input.dat` file in the source folder to avoid errors / generation of invalid results.   
+
 
 ## Output file
+The `output.dat` contains the following cycle parameters
+
+Line 1: Comma separated values of pressure in bar at the following locations
+
+*Compressor inlet, compressor outlet, recuperator HP inlet, recuperator HP outlet, combustor inlet, combustor outlet, turbine inlet, turbine outlet, recuperator LP inlet, recuperator LP outlet, condenser inlet*
+
+Line 2: Comma separated values of temperature in K at the following locations
+
+*Compressor inlet, compressor outlet, recuperator HP inlet, recuperator HP outlet, combustor inlet, combustor outlet, turbine inlet, turbine outlet, recuperator LP inlet, recuperator LP outlet, condenser inlet*
+
+Line 3: Comma separated values of key performance parameters
+
+*Efficiency[%], net specific work output[kJ/kgCO<sub>2</sub>], PPTD[K], fuel flow rate [g/s]*
 
 ## Acronyms
 
@@ -95,4 +113,4 @@ The `input.dat` should contain the following thermodynamic parameters.
 | HP      | High pressure|
 | LP      | Low pressure|
 | LHV     | Lower heating value |
-| HHV     | Hower heating value |
+| HHV     | Higher heating value |
