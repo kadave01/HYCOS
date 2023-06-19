@@ -1,6 +1,5 @@
 function [coupling_vars] = expansion()
 global coupling_vars
-% ic_compressor();
 %% turbine cooling flow dump 1
 x_co2_combustor_outlet = coupling_vars.local_constants.Mixture.mol_frac_CO2(end);
 x_h2o_combustor_outlet = 1-x_co2_combustor_outlet;

@@ -8,5 +8,4 @@ coupling_vars.performance.fuel_energy_HHV = coupling_vars.performance.massflow_h
 coupling_vars.performance.efficiency = round(coupling_vars.performance.net_work/coupling_vars.performance.fuel_energy,4);
 coupling_vars.performance.efficiency_HHV = coupling_vars.performance.net_work/coupling_vars.performance.fuel_energy_HHV;
 coupling_vars.performance.heat_rejected = sum(coupling_vars.performance.sp_heat_rejected_intercooler)*coupling_vars.mass_flow.M1 + coupling_vars.performance.heat_rejected_condenser;
-% (coupling_vars.performance.net_work+coupling_vars.performance.heat_rejected)/coupling_vars.performance.fuel_energy_HHV - 1
 end

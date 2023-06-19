@@ -46,8 +46,6 @@ P_cold_outlet = coupling_vars.Pressure.P4;
 while abs(PPTD-PPTD_desired) > PPTD_error && PPTD_adjust_counter < 25
     if HEX_effectiveness > 1
     msg = "Desired HEX_effectiveness more than 100%, increasing desrired PPTD from  " + PPTD_desired + "deg.C to  "+ (PPTD_desired+1) + "deg.C";
-%     disp(msg);%Error message based on HEX_effectiveness to high
-%         break;
     HEX_effectiveness = 1;
     PPTD_desired = PPTD_desired+1; 
     PPTD_adjust_counter = PPTD_adjust_counter +1;
@@ -78,7 +76,7 @@ while abs(PPTD-PPTD_desired) > PPTD_error && PPTD_adjust_counter < 25
     hypo_H_hot_outlet_cold_inlet_temp = hypo_mdot_vapor*sp_enthalpy(P_hot_inlet,T_cold_inlet, ...
         ["CO2","H2O"],[hypo_y_C2O_outlet_cold_inlet_temp,hypo_y_H2O_outlet_cold_inlet_temp], ...
         [hypo_x_C2O_outlet_cold_inlet_temp,hypo_x_H2O_outlet_cold_inlet_temp]) ...
-        + hypo_condensed_mass_H2O*py.CoolProp.CoolProp.PropsSI('H','P',P_hot_inlet,'Q',0,"H2O"); %+ hypo_condensed_mass_H2O*py.CoolProp.CoolProp.PropsSI('H','P',P_hot_inlet*hypo_x_H2O_outlet_cold_inlet_temp,'Q',0,"H2O");
+        + hypo_condensed_mass_H2O*py.CoolProp.CoolProp.PropsSI('H','P',P_hot_inlet,'Q',0,"H2O");
     HT_capacity_hot_side = H_inlet_hot_side - hypo_H_hot_outlet_cold_inlet_temp;
 
     %% cold side calculations
@@ -96,7 +94,7 @@ while abs(PPTD-PPTD_desired) > PPTD_error && PPTD_adjust_counter < 25
     H_outlet_hot_side = H_inlet_hot_side - actual_heat_transfer;
     if tracker == 1
         guess_temp = T_cold_inlet;
-%         guess_temp = (T_cold_inlet+T_hot_inlet)/2;
+
     else
         guess_temp = T_hot_outlet;
     end
@@ -109,7 +107,6 @@ while abs(PPTD-PPTD_desired) > PPTD_error && PPTD_adjust_counter < 25
     sp_entropy_dryer_inlet = sp_entropy(P_hot_outlet,T_hot_outlet,["CO2","H2O"],[y_co2_out,y_h2o_out],[x_co2_out,x_h2o_out]);
 
     %% Pinch point
-%     TDP = T_sat(P_hot_inlet,"H2O",x_H2O_hot_inlet);
     T_cold_profile = zeros(1,51);
     T_hot_profile = zeros(1,51);
     H_cold_profile = linspace(H_inlet_cold_side,H_outlet_cold_side,51);
@@ -130,53 +127,6 @@ while abs(PPTD-PPTD_desired) > PPTD_error && PPTD_adjust_counter < 25
     dT = T_hot_profile - T_cold_profile;
     PPTD = min(dT);
     margin = (PPTD-PPTD_desired);
-
-% 
-%     T_cold_profile = zeros(1,100);
-%     T_hot_profile = zeros(1,100);
-%     H_cold_profile = zeros(1,100);
-%     H_hot_profile = zeros(1,100);
-%     dH_cold_profile = zeros(1,100);
-%     dH_hot_profile = zeros(1,100);
-%     % T_hot_profile = floor(T_hot_outlet):0.1:ceil(T_hot_inlet);
-%     % T_cold_profile = floor(T_cold_inlet):0.1:ceil(T_cold_outlet);
-%     T_hot_profile = linspace(T_hot_outlet,T_hot_inlet,100); %[T_hot_outlet ceil(T_hot_outlet):1:floor(T_hot_inlet) T_hot_inlet];
-%     T_cold_profile = linspace(T_cold_inlet,T_cold_outlet,100); %[T_cold_inlet ceil(T_cold_inlet):1:floor(T_cold_outlet) T_cold_outlet];
-%     for i=1:length(T_cold_profile)
-%         H_cold_profile(i) = mdot_cold_side*py.CoolProp.CoolProp.PropsSI('H','P',P_cold_inlet,'T',T_cold_profile(i),"CO2");
-%     end
-%     dH_cold_profile (1) = H_cold_profile (2) - H_cold_profile (1);
-%     for i=2:length(T_cold_profile)
-%         dH_cold_profile (i) = dH_cold_profile (i-1)+ (H_cold_profile(i) - H_cold_profile(i-1));
-%         dH_cold_profile (i) = (H_cold_profile(i) - H_cold_profile(i-1));
-%     end
-% 
-%     H_hot_profile(end) = H_inlet_hot_side;
-%     a = length(H_hot_profile);
-%     for i=1:a-1
-%         H_hot_profile(a-i) = H_hot_profile(a-i+1) - dH_cold_profile(a-i);
-%     end
-% 
-% 
-%     for i=1:length(T_hot_profile)
-%         if T_hot_profile(i) >= TDP
-%             H_hot_profile(i) = mdot_hot_inlet*sp_enthalpy(P_hot_inlet,T_hot_profile(i),["CO2","H2O"],[y_CO2_hot_inlet,y_H2O_hot_inlet],[x_CO2_hot_inlet,x_H2O_hot_inlet]);
-%         else
-%             H_hot_profile(i) = Enthalpy_out(T_hot_profile(i),P_hot_inlet,molar_flow_CO2_hot_inlet,molar_flow_H2O_hot_inlet,mdot_hot_inlet,mdot_CO2_hot_inlet);
-%         end
-%     end
-%     dH_hot_profile (1) = H_hot_profile (2) - H_hot_profile (1);
-%     for i=2:length(T_hot_profile)
-%         dH_hot_profile (i) = dH_hot_profile(i-1)+ (H_hot_profile(i) - H_hot_profile(i-1));
-%     end
-%     f_1=fit(dH_cold_profile',T_cold_profile','linearinterp');
-%     f_2=fit(dH_hot_profile',T_hot_profile','linearinterp');
-%     heat_load = max(dH_hot_profile(end),dH_cold_profile(end));
-%     heat_load_profile = 0:heat_load/10000:heat_load;
-%     dT = [f_2(heat_load_profile) - f_1(heat_load_profile)]';
-%     PPTD = min(dT);
-%     margin = (PPTD-PPTD_desired);
-
     tracker_PPTD(tracker) = PPTD;
     tracker_HEX(tracker) = HEX_effectiveness;
 
@@ -193,21 +143,6 @@ while abs(PPTD-PPTD_desired) > PPTD_error && PPTD_adjust_counter < 25
             HEX_effectiveness = HEX_effectiveness - ((tracker_PPTD(end) - PPTD_desired)/(tracker_PPTD(end) - tracker_PPTD(end-1)) * (tracker_HEX(end)-tracker_HEX(end-1)));
         end
     end
-
-
-    %     figure
-    %     hold on
-    %     plot(dH_cold_profile,T_cold_profile);
-    %     plot(dH_hot_profile,T_hot_profile);
-    %     figure
-    %     hold on
-    %     yyaxis right
-    %     plot(dH_cold_profile,T_cold_profile);
-    %     plot(dH_hot_profile,T_hot_profile);
-    %     % xline(heat_load_profile);
-    %     yyaxis left
-    %     plot(heat_load_profile,dT);
-    %     grid on
 
 end
 
@@ -285,10 +220,6 @@ end
 
         if abs(error) < 1E-6
             continue
-            %     elseif (H_mix/H_mix_desired - 1) < 1E-2
-            %         T_out = T_out + 0.50;
-            %     elseif (H_mix/H_mix_desired - 1) > 1E-2
-            %         T_out = T_out - 0.50;
         elseif tracker == 1 && H_mix < H_mix_desired
             T_out = T_out + 5.0;
         elseif tracker == 1 && H_mix > H_mix_desired
@@ -303,11 +234,6 @@ end
             else 
             T_out = T_out - delta_t;
             end
-
-
-
-%             T_out = (H_mix_desired - tracker_H_mix(tracker))/(tracker_H_mix(tracker)-tracker_H_mix(tracker-1)) ...
-%                 * (tracker_T_out(tracker)-tracker_T_out(tracker-1)) + tracker_T_out(tracker);
         end
 
         if T_out < py.CoolProp.CoolProp.PropsSI('Ttriple', "H2O")
