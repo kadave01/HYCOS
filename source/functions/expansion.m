@@ -1,4 +1,4 @@
-function [coupling_vars] = expansion()
+function [coupling_vars] = expansion_new(coupling_vars)
 global coupling_vars
 %% turbine cooling flow dump 1
 x_co2_combustor_outlet = coupling_vars.local_constants.Mixture.mol_frac_CO2(end);
@@ -16,7 +16,7 @@ TurbineCoolingFlow = coupling_vars.mass_flow.M1*coupling_vars.local_constants.co
 %% expansion
 P_turbine_inlet = min(coupling_vars.Pressure.P7,coupling_vars.Pressure.coolant);
 P_turbine_outlet = coupling_vars.Pressure.P8;
-Isen_efficiency = coupling_vars.constants.compression_Isen_efficiency;
+Isen_efficiency = coupling_vars.constants.expansion_Isen_efficiency;
 sp_entropy_comubstor_outlet = sp_entropy(P_turbine_inlet,coupling_vars.Temperature.T6,["CO2","H2O"], ...
     [y_co2_combustor_outlet,y_h2o_combustor_outlet],[x_co2_combustor_outlet,x_h2o_combustor_outlet]);
 mass_flow_turbine_inlet = total_mass_flow_combustor_outlet + TurbineCoolingFlow/2;
@@ -94,7 +94,4 @@ coupling_vars.mass_flow.M7 = mass_flow_turbine_inlet;
 coupling_vars.mass_flow.M8 = mass_flow_turbine_inlet;
 coupling_vars.mass_flow.M9 = mass_flow_inlet_HEX;
 coupling_vars.performance.sp_expansion_work = actual_sp_work_expansion;
-
-% clearvars -except coupling_vars
-
 end

@@ -13,6 +13,7 @@ tracker_PPTD = 0;%variable definition
 tracker_HEX = 0;%variable definition
 tracker = 0;%variable definition
 PPTD_adjust_counter = 0;
+hex_steps = coupling_vars.local_constants.hex_steps;
 if isempty(coupling_vars.local_constants.HEX_eff)
     HEX_effectiveness = 1;%variable definition
 else
@@ -33,8 +34,6 @@ mdot_CO2_hot_inlet = coupling_vars.mass_flow.M1;
 molar_flow_CO2_hot_inlet = mdot_CO2_hot_inlet/coupling_vars.constants.co2_mol_mass;
 molar_flow_total_hot_inlet = molar_flow_CO2_hot_inlet/x_CO2_hot_inlet;
 molar_flow_H2O_hot_inlet = molar_flow_total_hot_inlet-molar_flow_CO2_hot_inlet;
-% mdot_H2O_hot_inlet = molar_flow_H2O_hot_inlet*coupling_vars.constants.h2o_mol_mass;
-
 
 %% Cold side inlet conditions
 T_cold_inlet = coupling_vars.Temperature.T3;
@@ -46,6 +45,8 @@ P_cold_outlet = coupling_vars.Pressure.P4;
 while abs(PPTD-PPTD_desired) > PPTD_error && PPTD_adjust_counter < 25
     if HEX_effectiveness > 1
     msg = "Desired HEX_effectiveness more than 100%, increasing desrired PPTD from  " + PPTD_desired + "deg.C to  "+ (PPTD_desired+1) + "deg.C";
+%     disp(msg);%Error message based on HEX_effectiveness to high
+%         break;
     HEX_effectiveness = 1;
     PPTD_desired = PPTD_desired+1; 
     PPTD_adjust_counter = PPTD_adjust_counter +1;
@@ -94,7 +95,6 @@ while abs(PPTD-PPTD_desired) > PPTD_error && PPTD_adjust_counter < 25
     H_outlet_hot_side = H_inlet_hot_side - actual_heat_transfer;
     if tracker == 1
         guess_temp = T_cold_inlet;
-
     else
         guess_temp = T_hot_outlet;
     end
@@ -107,12 +107,12 @@ while abs(PPTD-PPTD_desired) > PPTD_error && PPTD_adjust_counter < 25
     sp_entropy_dryer_inlet = sp_entropy(P_hot_outlet,T_hot_outlet,["CO2","H2O"],[y_co2_out,y_h2o_out],[x_co2_out,x_h2o_out]);
 
     %% Pinch point
-    T_cold_profile = zeros(1,51);
-    T_hot_profile = zeros(1,51);
-    H_cold_profile = linspace(H_inlet_cold_side,H_outlet_cold_side,51);
-    H_hot_profile = linspace(H_outlet_hot_side,H_inlet_hot_side,51);
-    P_cold_profile = linspace(P_cold_inlet,P_cold_outlet,51);
-    P_hot_profile = linspace(P_hot_outlet,P_hot_inlet,51);
+    T_cold_profile = zeros(1,hex_steps);
+    T_hot_profile = zeros(1,hex_steps);
+    H_cold_profile = linspace(H_inlet_cold_side,H_outlet_cold_side,hex_steps);
+    H_hot_profile = linspace(H_outlet_hot_side,H_inlet_hot_side,hex_steps);
+    P_cold_profile = linspace(P_cold_inlet,P_cold_outlet,hex_steps);
+    P_hot_profile = linspace(P_hot_outlet,P_hot_inlet,hex_steps);
 
     for i=1:length(H_cold_profile)
         local_sp_enthalpy = H_cold_profile(i)/mdot_cold_side;
@@ -131,6 +131,15 @@ while abs(PPTD-PPTD_desired) > PPTD_error && PPTD_adjust_counter < 25
     tracker_HEX(tracker) = HEX_effectiveness;
 
     if abs(margin) < PPTD_error
+        if max_heat_transfer == HT_capacity_cold_side
+            coupling_vars.local_constants.stream = "HP";
+        else
+            coupling_vars.local_constants.stream = "LP";
+        end
+        coupling_vars.local_constants.avg_cold_cp = actual_heat_transfer/mdot_cold_side/(T_cold_outlet-T_cold_inlet);
+        coupling_vars.local_constants.avg_hot_cp = actual_heat_transfer/mdot_hot_inlet/(T_hot_inlet-T_hot_outlet);
+        coupling_vars.local_constants.hex_process = [actual_heat_transfer/50*linspace(0,50,hex_steps);dT];
+        coupling_vars.local_constants.cr = min(HT_capacity_cold_side,HT_capacity_hot_side)/max(HT_capacity_cold_side,HT_capacity_hot_side);
         break;
     else
         if tracker < 2
@@ -143,11 +152,9 @@ while abs(PPTD-PPTD_desired) > PPTD_error && PPTD_adjust_counter < 25
             HEX_effectiveness = HEX_effectiveness - ((tracker_PPTD(end) - PPTD_desired)/(tracker_PPTD(end) - tracker_PPTD(end-1)) * (tracker_HEX(end)-tracker_HEX(end-1)));
         end
     end
-
 end
 
 %% feedback
-
 coupling_vars.Temperature.T4 = T_cold_outlet;
 coupling_vars.Temperature.T5 = T_cold_outlet;
 coupling_vars.Temperature.T10 = T_hot_outlet;
@@ -163,9 +170,9 @@ coupling_vars.sp_entropy.s5 = sp_entropy_cold_outelt;
 coupling_vars.sp_entropy.s10 = sp_entropy_hot_outelt;
 coupling_vars.sp_entropy.s11 = sp_entropy_dryer_inlet;
 coupling_vars.local_constants.HEX_eff = [coupling_vars.local_constants.HEX_eff HEX_effectiveness];
-
-% clearvars -except coupling_vars
+coupling_vars.performance.heat_recuperated = actual_heat_transfer;
 end
+
 %% local function definition
 
     function [H_mix,y_H2O_out,y_CO2_out,x_H2O_out,x_CO2_out]  = Enthalpy_out(T_out,P_hot_outlet,molar_flow_CO2_hot_inlet,molar_flow_H2O_hot_inlet,mdot_hot_inlet,mdot_CO2_hot_inlet)
@@ -258,7 +265,6 @@ end
                     causeException = MException('MATLAB:myCode:dimensions',msg);
                     ME = addCause(ME,causeException);
                 end
-                %             display(causeException.message)
                 h = h + mass_fraction(i)*py.CoolProp.CoolProp.PropsSI('H','P',Pressure*mol_fraction(i),'Q',1,species(i));
             end
         end

@@ -43,11 +43,13 @@ coupling_vars.constants.co2_mol_mass = data(14)*1E-3;
 coupling_vars.constants.h2o_mol_mass = data(15)*1E-3;
 coupling_vars.constants.h2_mol_mass = data(16)*1E-3;
 coupling_vars.constants.o2_mol_mass = data(17)*1E-3;
-coupling_vars.constants.HHV_h2 = 285.8E3/coupling_vars.constants.h2_mol_mass; %J/kgofh2
-coupling_vars.constants.LHV_h2 = 241.826E3/coupling_vars.constants.h2_mol_mass; %J/kgofh2
+coupling_vars.constants.HHV_h2 = data(18)/coupling_vars.constants.h2_mol_mass; %J/kgofh2
+coupling_vars.constants.LHV_h2 = data(19)/coupling_vars.constants.h2_mol_mass; %J/kgofh2
 %% Exit criteria
-coupling_vars.constants.PPTD_error = 1e-1;
-coupling_vars.constants.mol_fraction_error = 1E-6;
+coupling_vars.constants.PPTD_error = data(20);
+coupling_vars.constants.mol_fraction_error = data(21);
+coupling_vars.local_constants.hex_steps = data(22);
+
 %% intialization
 coupling_vars.local_constants.HEX_eff= [];
 coupling_vars.local_constants.PPTD_tracker = [];

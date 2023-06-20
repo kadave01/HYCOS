@@ -19,4 +19,4 @@
 241.826E3 ##Molar LHV of fuel (H<sub>2</sub>)  [MJ/kmole]
 1E-1 ##Permissible error in PPTD calculation [-]
 1E-6 ##Permissible error in mixture composition calculation [-]
-501 ##Number of heat exchange steps in the recuperator [-]
+51 ##Number of heat exchange steps in the recuperator [-]

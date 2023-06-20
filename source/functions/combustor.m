@@ -22,8 +22,6 @@ calorific_value_fuel = coupling_vars.constants.HHV_h2;
 x_co2_out = coupling_vars.local_constants.Mixture.mol_frac_CO2(end);
 update_x_co2_out = inf;
 delta_x_co2 = update_x_co2_out-x_co2_out;
-
-
 %%
 while abs(delta_x_co2) > coupling_vars.constants.mol_fraction_error
     mol_flow_h2o_out = mol_flow_co2_out*(1/x_co2_out - 1);
@@ -33,6 +31,9 @@ while abs(delta_x_co2) > coupling_vars.constants.mol_fraction_error
     y_h2o_out = 1 - y_co2_out;
     H_out = (mass_flow_co2_out+mass_flow_h2o_out)*sp_enthalpy(P_outlet,T_outlet,["CO2","H2O"],[y_co2_out,y_h2o_out],[x_co2_out,x_h2o_out]);
     H_in = mass_flow_co2_inlet*h_inlet+mass_flow_h2o_out*py.CoolProp.CoolProp.PropsSI('H','P',P_inlet,'T',coupling_vars.Temperature.T1,"H2O");
+%     H_fuel = mass_flow_h2o_out/9*py.CoolProp.CoolProp.PropsSI('H','P',P_inlet,'T',298,"H2");
+%     H_oxidizer = mass_flow_h2o_out*8/9*py.CoolProp.CoolProp.PropsSI('H','P',P_inlet,'T',298,"O2");
+%     H_in_alt = mass_flow_co2_inlet*h_inlet + H_fuel + H_oxidizer;
     fuel_burn = (H_out-H_in)/(calorific_value_fuel*combustion_eff);
     update_mass_flow_h2o_out = fuel_burn*9;
     update_x_co2_out = mol_flow_co2_out/(mol_flow_co2_out+update_mass_flow_h2o_out/coupling_vars.constants.h2o_mol_mass);
@@ -43,13 +44,11 @@ while abs(delta_x_co2) > coupling_vars.constants.mol_fraction_error
         x_co2_out = update_x_co2_out;
     end
 end
-
+%% feedback
 coupling_vars.local_constants.check = [coupling_vars.local_constants.check coupling_vars.local_constants.Mixture.mol_frac_CO2(end)];
 coupling_vars.local_constants.Mixture.mol_frac_CO2 = [coupling_vars.local_constants.Mixture.mol_frac_CO2 x_co2_out];
 coupling_vars.performance.massflow_h2 = fuel_burn;
-
 end
-
 
 %% local functions
 function [T_out,x_CO2_out,x_H2O_out,y_CO2_out,y_H2O_out,h_vap,h_liq,h_mix,m_mix,mass_flow_vap]  = guess_temperature_PH(Pressure,Enthalpy_mix,initial_guess_temp,molar_flow_CO2_hot_inlet,molar_flow_H2O_hot_inlet,mdot_hot_inlet,mdot_CO2_hot_inlet)
@@ -94,5 +93,3 @@ while abs(H_mix/H_mix_desired - 1) > 1E-6
     end
 end
 end
-
-
