@@ -31,19 +31,6 @@ To run the source code,following are the requisites:
 
 A quick way to test if the installations are successful is to just run the `main.m` file.
 
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
-### Copyright notice
-
-Technische Universiteit Delft hereby disclaims all copyright interest in the `HYCOS` model for thermodynamic assessment of transcritical/supercritical CO<sub>2</sub> Brayton cycles written by the Author(s). 
-
-Henri Werij, Faculty of Aerospace Engineering, Technische Universiteit Delft.
-
-© [2023], [Kaushal Dave]
-
-
 ## Model assumptions
 
 1. Compression and expansions are adiabatic processes of specified isentropic efficiency.
@@ -125,3 +112,16 @@ The author have developed the following additional functionalities using the bas
 2. Sensitivity module
 
 Please contact the author @ [kaushal.atul.dave@gmail.com](kaushal.atul.dave@gmail.com) if your are interested in exploring these modules. 
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+### Copyright notice
+
+Technische Universiteit Delft hereby disclaims all copyright interest in the `HYCOS` model for thermodynamic assessment of transcritical/supercritical CO<sub>2</sub> Brayton cycles written by the Author(s). 
+
+Henri Werij, Faculty of Aerospace Engineering, Technische Universiteit Delft.
+
+© [2023], [Kaushal Dave]
+
