@@ -1,6 +1,6 @@
 function [coupling_vars] = read_map_input()
 %% Read the input.dat file
-filename = 'input_map.dat';
+filename = 'utils\input_map.dat';
 fid = fopen(filename, 'r');
 
 data = [];  % store the data here

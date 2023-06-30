@@ -1,8 +1,8 @@
 close all
 clear all
 clc
-TOP = [32, 2:2:100];
-TIT = [1455, 1000:5:2000];
+TOP = [1, 2:2:100];
+TIT = [1000:5:2000];
 global coupling_vars
 %% add subdirectories to search path
 % Get the current script's file path
@@ -11,9 +11,10 @@ currentScript = mfilename('fullpath');
 parentFolder = fileparts(currentFolder);
 subdirectory = 'functions';  % Replace with your subdirectory name
 subdirectoryPath = fullfile(parentFolder, subdirectory);
+addpath(parentFolder);
 addpath(subdirectoryPath);
 
-fileID = fopen('output_map.dat', 'w');
+fileID = fopen('utils/output_map.dat', 'w');
     fprintf(fileID, 'TOP\tTIT\tEfficiency\tNet_sp_work\tTOT\n');
     fclose(fileID);
 
@@ -22,7 +23,7 @@ for i = 1:length(TOP)
         data = [
                 TOP(i);                 % Lowest cycle pressure [bar]
                 303.85;                 % Highest cycle pressure [bar]
-                TIT(i);                 % Highest cycle temperature [K]
+                TIT(j);                 % Highest cycle temperature [K]
                 302.15;                 % Lowest cycle temperature [K]
                 10;                     % PPTD [K]
                 0.9973;                 % HEX pressure recovery ratio HP side [-]
@@ -43,13 +44,14 @@ for i = 1:length(TOP)
                 1E-6;                   % Permissible error in mixture composition calculation [-]
                 51                      % Number of heat exchange steps in the recuperator [-]
                ];
-        fid = fopen('input_map.dat', 'w');
+        fid = fopen('utils/input_map.dat', 'w');
         fprintf(fid, '%f\n', data);
         fclose(fid);
         coupling_vars = read_map_input();% read input_map.dat
         coupling_vars = evaluate_map();
         map_output_writer()
         clearvars coupling_vars
-        delete('input_map.dat');
+        delete('utils/input_map.dat');
+        fprintf('TOP: %f, TIT: %f\n', TOP(i), TIT(j));
     end
 end
