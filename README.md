@@ -1,9 +1,16 @@
 # HYCOS (`Hy`drogen `CO`mbustion in `S`upercritical CO<sub>2</sub>)
 
 ## About
-This repository contains a MATLAB   model developed at the Technische Universiteit Delft for thermodynamic assessment of the HYCOS cycle which is a transcritical/supercritical CO<sub>2</sub> Brayton cycle fueled by H<sub>2</sub>/O<sub>2</sub> combustion. This cycle is proposed for use in H<sub>2</sub> based energy storage and reconversion systems for distributed power generation/energy islands. 
+This repository contains a MATLAB   model developed at the Technische Universiteit Delft (TU Delft) for thermodynamic assessment of the HYCOS cycle which is a transcritical/supercritical CO<sub>2</sub> Brayton cycle fueled by H<sub>2</sub>/O<sub>2</sub> combustion. This cycle is proposed for use in H<sub>2</sub> based energy storage and reconversion systems for distributed power generation/energy islands. 
 
 More details about the HYCOS concept can be found in my [publication]()  and in my [MSc thesis report](https://repository.tudelft.nl/islandora/object/uuid%3Aaaa684ff-d22c-4482-bb2e-bbbd74336ab1) available at the TU Delft repository.    
+
+## Author Contributions
+
+| Name                                                  | Contact Details                                    | ORCID                                                        | Contributions                                                                                 |
+|-------------------------------------------------------|----------------------------------------------------|--------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| Kaushal Dave [@kadave01](https://github.com/kadave01) | k.a.dave@tudelft.nl<br>kaushal.atul.dave@gmail.com | [0000-0002-5488-7909](https://orcid.org/0000-0002-5488-7909) | Conceptualization, Methodology, Software, Validation, Investigation, Writing – Original Draft | 
+| Arvind Gangoli Rao                                    | A.GangoliRao@tudelft.nl                            | [0000-0002-9558-8171](https://orcid.org/0000-0002-9558-8171) | Conceptualization, Validation, Writing – Review & Editing, Supervision                        |
 
 ## How to Cite
 
@@ -22,14 +29,47 @@ If you use this model in your work, I request you to acknowledge it in your rese
 }
 ```
 
+## External references
+1. Publication
+2. 4TU repository
+3. MSc thesis
+
 ## Installation
-To run the source code,following are the requisites:
+The following are the minimum requisites based on the author's system configuration (using ***Windows 10***) :
 
-### Minimum requisites
+#### Minimum requisites
 - Matlab 2021b
-- [CoolProp](https://github.com/CoolProp/CoolProp) (Matlab wrapper)
+- Python 3.8.x
+- [CoolProp](https://github.com/CoolProp/CoolProp) 6.4.x (Matlab wrapper)
 
-A quick way to test if the installations are successful is to just run the `main.m` file.
+A quick way to test if the installations are successful is to just run the `..\source\main.m` file. Ensure that a valid `..\source\input.dat` is provided. A correct installation should enable successful compilation of the scripts and generate `..\source\output.dat`.  
+
+## Repository Structure
+
+```
+.
+├── source/
+│   │
+│   ├── functions/
+│   │   └── *.m
+│   │
+│   │── utils/
+│   │   │── output_map.dat
+│   │   └── performance_map.m
+│   │
+│   │── input.dat
+│   │
+│   │── main.m
+│   │
+│   └── output.dat
+│
+├── LICENSE
+│
+├── README.md
+│
+└── .gitignore
+```
+
 
 ## Model assumptions
 
@@ -42,43 +82,48 @@ A quick way to test if the installations are successful is to just run the `main
 
 
 ## I/O format
-When executing `main.m` ensure a valid `input.dat` file is available in the source folder. The script then generates `output.dat` file containing the evaluated performance parameter of the HYCOS cycle for the defined configuration. Any desired configuration of the HYCOS cycle can be analyzed by editing the parameters in the `input.dat` file. 
+When executing `..\source\main.m` ensure a valid `..\source\input.dat` file is provided. The script then generates `..\source\output.dat` file containing the evaluated performance parameter of the HYCOS cycle for the defined configuration. Any desired configuration of the HYCOS cycle can be analyzed by editing the parameters in the `..\source\input.dat`. 
 
 ## Input file
-The `input.dat` should contain the following thermodynamic parameters as individual line items. 
+The `..\source\input.dat` should contain the following thermodynamic parameters as individual line items. 
 ```
-### Main variables
-- Lowest cycle pressure [bar] i.e. compressor inlet pressure 
-- Highest cycle pressure [bar] i.e. compressor outlet pressure
-- Highest cycle temperature [K] i.e. turbine inlet temperature
-- Lowest cycle temperature [K] i.e. compressor inlet temperature
-### Other constants 
-- PPTD [K] i.e. minimum permissible temperature difference between the hot and cold lines in the recuperator
-- HEX pressure recovery ratio HP side [-]
-- HEX pressure recovery ratio LP side [-]
-- Combustor pressure recovery ratio [-]
-- Isentropic efficiency of compression process [%]
-- Isentropic efficiency of expansion process [%]
-- Combustion efficiency [%]
-- Number of intercooled compression steps [-]
-- Maximum allowable blade metal temperature for turbine cooling model [K]
-- Molar mass of CO<sub>2</sub> [g/mol]
-- Molar mass of H<sub>2</sub>O [g/mol]
-- Molar mass of H<sub>2</sub>  [g/mol]
-- Molar mass of O<sub>2</sub>  [g/mol]
-- LHV of fuel (H<sub>2</sub>)  [MJ/kg]
-- HHV of fuel (H<sub>2</sub>)  [MJ/kg]
+32 ##Lowest cycle pressure [bar] i.e. compressor inlet pressure 
+303.85 ##Highest cycle pressure [bar] i.e. compressor outlet pressure
+1455 ##Highest cycle temperature [K] i.e. turbine inlet temperature
+302.15 ##Lowest cycle temperature [K] i.e. compressor inlet temperature
+10 ##PPTD [K] i.e. minimum permissible temperature difference between the hot and cold lines in the recuperator
+0.9973 ##HEX pressure recovery ratio HP side [-]
+0.97 ##HEX pressure recovery ratio LP side [-]
+0.99 ##Combustor pressure recovery ratio [-]
+80 ##Isentropic efficiency of compression process [%]
+83 ##Isentropic efficiency of expansion process [%]
+99.5 ##Combustion efficiency [%]
+4 ##Number of intercooled compression steps [-]
+1073.15 ##Maximum allowable blade metal temperature [K]
+44.00095 ##Molar mass of CO<sub>2</sub> [kg/kmol]
+18.0153 ##Molar mass of H<sub>2</sub>O [kg/kmol]
+2.01588 ##Molar mass of H<sub>2</sub>  [kg/kmol]
+31.9988 ##Molar mass of O<sub>2</sub>  [kg/kmol]
+285.8E3 ##Molar HHV of fuel (H<sub>2</sub>)  [MJ/kmole]
+241.826E3 ##Molar LHV of fuel (H<sub>2</sub>)  [MJ/kmole]
+1E-1 ##Permissible error in PPTD calculation [-]
+1E-6 ##Permissible error in mixture composition calculation [-]
+501 ##Number of heat exchange steps in the recuperator [-]
+```
 
-### Exit criteria and other variables
-- Permissible error in PPTD calculation [-]
-- Permissible error in mixture composition calculation [-]
-```
+The values preceeding `##` can be changed in accordance with the user requirements.
+
 ### Important note
-Ensure the order in which these parameters are provided is same as in the sample `input.dat` file in the source folder to avoid errors / generation of invalid results.   
-
+Please ensure to provide the parameters in the stated units/format  and in the same sequence as given in the sample `..\source\input.dat` file to avoid compilation errors and/or invalid results.
 
 ## Output file
-The `output.dat` contains the following cycle parameters
+The `..\source\output.dat` will have the following format.  
+```
+32.00,303.85,303.85,303.03,303.03,300.00,300.00,34.01,34.01,32.99,32.99,
+302.15,314.85,314.85,1050.42,1050.42,1455.00,1427.44,1093.42,1073.30,329.06,329.06,
+58.780,370.576,10.000,5.255,
+```
+***Explanation***
 
 Line 1: Comma separated values of pressure in bar at the following locations
 
@@ -91,6 +136,7 @@ Line 2: Comma separated values of temperature in K at the following locations
 Line 3: Comma separated values of key performance parameters
 
 *Efficiency[%], net specific work output[kJ/kgCO<sub>2</sub>], PPTD[K], fuel flow rate [g/s]*
+
 
 ## Acronyms
 
@@ -105,13 +151,15 @@ Line 3: Comma separated values of key performance parameters
 | HHV     | Higher heating value |
 
 ## Additional functionalities
+### Performance map module
 
-The author have developed the following additional functionalities using the base code provided in this repository. 
+### Other modules
+The author has also developed the following additional functionalities using the base code provided in this repository. 
 
 1. Optimization module using the MATLAB Optimization Toolbox
 2. Sensitivity module
 
-Please contact the author @ [kaushal.atul.dave@gmail.com](kaushal.atul.dave@gmail.com) if your are interested in exploring these modules. 
+Please contact the author [@k.a.dave@tudelft.nl](k.a.dave@tudelft.nl) or [@kaushal.atul.dave@gmail.com](kaushal.atul.dave@gmail.com) if you are interested in exploring these modules. 
 
 ## License
 
@@ -119,7 +167,7 @@ Please contact the author @ [kaushal.atul.dave@gmail.com](kaushal.atul.dave@gmai
 
 ### Copyright notice
 
-Technische Universiteit Delft hereby disclaims all copyright interest in the `HYCOS` model for thermodynamic assessment of transcritical/supercritical CO<sub>2</sub> Brayton cycles written by the Author(s). 
+Technische Universiteit Delft hereby disclaims all copyright interest in the **HYCOS** thermodynamic model for assessment of transcritical/supercritical CO<sub>2</sub> Brayton cycles written by the Author(s). 
 
 Henri Werij, Faculty of Aerospace Engineering, Technische Universiteit Delft.
 
