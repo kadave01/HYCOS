@@ -25,8 +25,8 @@
 close all
 clear all
 clc
-TOP = [32];%, 2:2:100];
-TIT = [1455];%[1000:5:2000];
+TOP = [1,2:2:100]; %specify the desired values of TOP
+TIT = [1000:5:2000]; %specify the desired values of TIT
 global coupling_vars
 %% add subdirectories to search path
 % Get the current script's file path
@@ -39,7 +39,7 @@ addpath(parentFolder);
 addpath(subdirectoryPath);
 
 fileID = fopen('../utils/output_map.dat', 'w');
-    fprintf(fileID, 'TOP\tTIT\tEfficiency\tNet_sp_work\tTOT\n');
+    fprintf(fileID, 'TOP[Pa]\tTIT[K]\tEfficiency[-]\tNet_sp_work[J/kgCO2]\tTOT[K]\n');
     fclose(fileID);
 
 for i = 1:length(TOP)
