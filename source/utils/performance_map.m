@@ -25,8 +25,8 @@
 close all
 clear all
 clc
-TOP = [1, 2:2:100];
-TIT = [1000:5:2000];
+TOP = [32];%, 2:2:100];
+TIT = [1455];%[1000:5:2000];
 global coupling_vars
 %% add subdirectories to search path
 % Get the current script's file path
@@ -38,7 +38,7 @@ subdirectoryPath = fullfile(parentFolder, subdirectory);
 addpath(parentFolder);
 addpath(subdirectoryPath);
 
-fileID = fopen('utils/output_map.dat', 'w');
+fileID = fopen('../utils/output_map.dat', 'w');
     fprintf(fileID, 'TOP\tTIT\tEfficiency\tNet_sp_work\tTOT\n');
     fclose(fileID);
 
@@ -68,14 +68,10 @@ for i = 1:length(TOP)
                 1E-6;                   % Permissible error in mixture composition calculation [-]
                 51                      % Number of heat exchange steps in the recuperator [-]
                ];
-        fid = fopen('utils/input_map.dat', 'w');
-        fprintf(fid, '%f\n', data);
-        fclose(fid);
-        coupling_vars = read_map_input();% read input_map.dat
+        coupling_vars = read_map_input(data);% read input_map.dat
         coupling_vars = evaluate_map();
         map_output_writer()
         clearvars coupling_vars
-        delete('utils/input_map.dat');
         fprintf('TOP: %f, TIT: %f\n', TOP(i), TIT(j));
     end
 end
