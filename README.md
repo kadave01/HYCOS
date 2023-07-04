@@ -80,11 +80,12 @@ A quick way to test if the installations are successful is to just run the `..\s
 3. Fuel/oxidizer are available at the site in pre-compressed state at ambient temperature.
 4. Flue gas mixture is treated as an ideal mixture of real gases i.e. an ideal mixture of CO<sub>2</sub> and H<sub>2</sub>O and the real gas effects are included only for the individual components.
 
-
-## I/O format
+## Base Thermodynamic Model
+The base thermodynamic module can be used via the `..\source\main.m` script. It evaluate a single configuration of the HYCOS cycle that can be specified by the user via the `..\source\input.dat` file.  
+### I/O format
 When executing `..\source\main.m` ensure a valid `..\source\input.dat` file is provided. The script then generates `..\source\output.dat` file containing the evaluated performance parameter of the HYCOS cycle for the defined configuration. Any desired configuration of the HYCOS cycle can be analyzed by editing the parameters in the `..\source\input.dat`. 
 
-## Input file
+### Input file
 The `..\source\input.dat` should contain the following thermodynamic parameters as individual line items. 
 ```
 32 ##Lowest cycle pressure [bar] i.e. compressor inlet pressure 
@@ -113,17 +114,18 @@ The `..\source\input.dat` should contain the following thermodynamic parameters 
 
 The values preceeding `##` can be changed in accordance with the user requirements.
 
-### Important note
+<ins>**Important note:**</ins> 
+
 Please ensure to provide the parameters in the stated units/format  and in the same sequence as given in the sample `..\source\input.dat` file to avoid compilation errors and/or invalid results.
 
-## Output file
+### Output file
 The `..\source\output.dat` will have the following format.  
 ```
 32.00,303.85,303.85,303.03,303.03,300.00,300.00,34.01,34.01,32.99,32.99,
 302.15,314.85,314.85,1050.42,1050.42,1455.00,1427.44,1093.42,1073.30,329.06,329.06,
 58.780,370.576,10.000,5.255,
 ```
-***Explanation***
+<ins>**Explanation:**</ins>
 
 Line 1: Comma separated values of pressure in bar at the following locations
 
@@ -137,21 +139,35 @@ Line 3: Comma separated values of key performance parameters
 
 *Efficiency[%], net specific work output[kJ/kgCO<sub>2</sub>], PPTD[K], fuel flow rate [g/s]*
 
-
-## Acronyms
-
-| Acronym | Definition                   |
-|---------|------------------------------|
-| HYCOS   | Hydrogen Combustion in supercritical-CO<sub>2</sub> |
-| PPTD    | Pinch Point Temperature Difference      |
-| HEX     | Heat Exchanger|
-| HP      | High pressure|
-| LP      | Low pressure|
-| LHV     | Lower heating value |
-| HHV     | Higher heating value |
-
 ## Additional functionalities
 ### Performance map module
+The `performance_map.m` script included in the `../utils` subdirectory can used to generate a performance map for the HYCOS cycle. It requires the user to define range of values for turbine outlet pressure (TOP) and turbine inlet temperature (TIT) over which the base thermodynamic model is iterated. Other cycle parameters previously specified using the `..\source\input.dat` file are also included in this script and can be modified as desired. The script generates `..\utils\output_map.dat` file and appends key performance parameters to it at the end of each iteration. 
+
+### Inputs
+Specify the desired values of TOP and TIT in `..\utils\performance_map.m` file.
+```
+TOP = [1,2:2:100]; %specify the desired values of TOP
+TIT = [1000:5:2000]; %specify the desired values of TIT
+```
+### Outputs 
+The `..\utils\output_map.dat` file contains a list of key performance parameters for each combination of TOP and TIT specified by the user. 
+```
+TOP[Pa]	TIT[K]	Efficiency[-]	Net_sp_work[J/kgCO2]	TOT[K]
+100000.000000	1000.000000	0.307700	274873.006000	476.070846	
+100000.000000	1005.000000	0.310900	279148.016000	478.970176	
+.
+.
+.
+.
+100000.000000	1995.000000	0.602000	1061550.895000	958.468393	
+100000.000000	2000.000000	0.602200	1065940.522000	960.621250	
+200000.000000	1000.000000	0.331000	281244.253000	518.499250	
+200000.000000	1005.000000	0.334000	285096.416000	521.612321	
+.
+.
+.
+10000000.000000	2000.000000	0.423300	289415.432000	1619.287190
+```
 
 ### Other modules
 The author has also developed the following additional functionalities using the base code provided in this repository. 
@@ -161,9 +177,23 @@ The author has also developed the following additional functionalities using the
 
 Please contact the author [@k.a.dave@tudelft.nl](k.a.dave@tudelft.nl) or [@kaushal.atul.dave@gmail.com](kaushal.atul.dave@gmail.com) if you are interested in exploring these modules. 
 
-## License
+## Acronyms
 
-[MIT](https://choosealicense.com/licenses/mit/)
+| Acronym | Definition                                          |
+|---------|-----------------------------------------------------|
+| HYCOS   | Hydrogen Combustion in supercritical-CO<sub>2</sub> |
+| PPTD    | Pinch Point Temperature Difference      |
+| HEX     | Heat Exchanger|
+| HP      | High pressure|
+| LP      | Low pressure|
+| LHV     | Lower heating value |
+| HHV     | Higher heating value |
+| TOP     | Turbine outlet pressure|
+| TIT     | Turbine inlet temperature|
+
+## License
+The contents of this repository are released under an [MIT](https://choosealicense.com/licenses/mit/) license (see LICENSE file).
+
 
 ### Copyright notice
 
