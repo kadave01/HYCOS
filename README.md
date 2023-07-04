@@ -74,16 +74,16 @@ A quick way to test if the installations are successful is to just run the `..\s
 ## Model assumptions
 
 1. Compression and expansions are adiabatic processes of specified isentropic efficiency.
-2. Half of the turbine cooling flow is assumed to be mixed before expansion and the remaining half is mixed after expansion. The mixing process is assumed to cause no pressure loss to the main stream of flue gases. 
+2. Half of the turbine cooling flow is assumed to be mixed before expansion and the remaining half is mixed after expansion. The mixing process is assumed to cause no pressure loss to the mainstream of flue gases. 
 
     ***NOTE: Thus, for TIT and TOT in conventional terms, use combustor outlet temperature and recuperator LP side inlet temperature respectively.***
-3. Fuel/oxidizer are available at the site in pre-compressed state at ambient temperature.
+3. Fuel and oxidizer are available at the site in a pre-compressed state at ambient temperature.
 4. Flue gas mixture is treated as an ideal mixture of real gases i.e. an ideal mixture of CO<sub>2</sub> and H<sub>2</sub>O and the real gas effects are included only for the individual components.
 
 ## Base Thermodynamic Model
-The base thermodynamic module can be used via the `..\source\main.m` script. It evaluate a single configuration of the HYCOS cycle that can be specified by the user via the `..\source\input.dat` file.  
+The base thermodynamic module can be used via the `..\source\main.m` script. It evaluates a single configuration of the HYCOS cycle that can be specified by the user via the `..\source\input.dat` file.  
 ### I/O format
-When executing `..\source\main.m` ensure a valid `..\source\input.dat` file is provided. The script then generates `..\source\output.dat` file containing the evaluated performance parameter of the HYCOS cycle for the defined configuration. Any desired configuration of the HYCOS cycle can be analyzed by editing the parameters in the `..\source\input.dat`. 
+When executing `..\source\main.m` ensure a valid `..\source\input.dat` file is provided. The script then generates a `..\source\output.dat` file containing the evaluated performance parameter of the HYCOS cycle for the defined configuration. Any desired configuration of the HYCOS cycle can be analyzed by editing the parameters in the `..\source\input.dat`. 
 
 ### Input file
 The `..\source\input.dat` should contain the following thermodynamic parameters as individual line items. 
@@ -112,11 +112,11 @@ The `..\source\input.dat` should contain the following thermodynamic parameters 
 501 ##Number of heat exchange steps in the recuperator [-]
 ```
 
-The values preceeding `##` can be changed in accordance with the user requirements.
+The values preceding `##` can be changed in accordance with the user's requirements.
 
 <ins>**Important note:**</ins> 
 
-Please ensure to provide the parameters in the stated units/format  and in the same sequence as given in the sample `..\source\input.dat` file to avoid compilation errors and/or invalid results.
+Please ensure to provide the parameters in the stated units/format  and the same sequence as given in the sample `..\source\input.dat` file to avoid compilation errors and/or invalid results.
 
 ### Output file
 The `..\source\output.dat` will have the following format.  
@@ -127,7 +127,7 @@ The `..\source\output.dat` will have the following format.
 ```
 <ins>**Explanation:**</ins>
 
-Line 1: Comma separated values of pressure in bar at the following locations
+Line 1: Comma-separated values of pressure in bar at the following locations
 
 *Compressor inlet, compressor outlet, recuperator HP inlet, recuperator HP outlet, combustor inlet, combustor outlet, turbine inlet, turbine outlet, recuperator LP inlet, recuperator LP outlet, condenser inlet*
 
@@ -141,10 +141,10 @@ Line 3: Comma separated values of key performance parameters
 
 ## Additional functionalities
 ### Performance map module
-The `performance_map.m` script included in the `../utils` subdirectory can used to generate a performance map for the HYCOS cycle. It requires the user to define range of values for turbine outlet pressure (TOP) and turbine inlet temperature (TIT) over which the base thermodynamic model is iterated. Other cycle parameters previously specified using the `..\source\input.dat` file are also included in this script and can be modified as desired. The script generates `..\utils\output_map.dat` file and appends key performance parameters to it at the end of each iteration. 
+The `performance_map.m` script included in the `../utils` subdirectory can be used to generate a performance map for the HYCOS cycle. It requires the user to define a range of values for turbine outlet pressure (TOP) and turbine inlet temperature (TIT) over which the base thermodynamic model is iterated. Other cycle parameters previously specified using the `..\source\input.dat` file are also included in this script and can be modified as desired. The script generates the `..\utils\output_map.dat` file and appends key performance parameters to it at the end of each iteration. 
 
 ### Inputs
-Specify the desired values of TOP and TIT in `..\utils\performance_map.m` file.
+Specify the desired values of TOP and TIT in the `..\utils\performance_map.m` file.
 ```
 TOP = [1,2:2:100]; %specify the desired values of TOP
 TIT = [1000:5:2000]; %specify the desired values of TIT
