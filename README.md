@@ -3,7 +3,7 @@
 ## About
 This repository contains a MATLAB   model developed at the Technische Universiteit Delft (TU Delft) for thermodynamic assessment of the HYCOS cycle which is a transcritical/supercritical CO<sub>2</sub> Brayton cycle fueled by H<sub>2</sub>/O<sub>2</sub> combustion. This cycle is proposed for use in H<sub>2</sub> based energy storage and reconversion systems for distributed power generation/energy islands. 
 
-More details about the HYCOS concept can be found in my [publication]()  and in my [MSc thesis report](https://repository.tudelft.nl/islandora/object/uuid%3Aaaa684ff-d22c-4482-bb2e-bbbd74336ab1) available at the TU Delft repository.    
+More details about the HYCOS concept can be found in my [publication](https://doi.org/10.1016/j.xcrp.2023.101514)  and in my [MSc thesis](https://repository.tudelft.nl/islandora/object/uuid%3Aaaa684ff-d22c-4482-bb2e-bbbd74336ab1) available at TU Delft's Education repository.    
 
 ## Author Contributions
 
@@ -17,25 +17,22 @@ More details about the HYCOS concept can be found in my [publication]()  and in 
 If you use this model in your work, I request you to acknowledge it in your research by citing my paper using the following BibTeX citation:
 
 ```bibtex
-@article{citekey,
-  author = {Last name, First initials},
-  title = {Title of the paper},
-  journal = {Journal Name},
-  volume = {Volume},
-  number = {Issue},
-  pages = {Page numbers},
-  year = {Year},
-  doi = {DOI (if available)}
+@article{DAVE2023101514,
+  author = {Kaushal Dave and Arvind Gangoli Rao},
+  title = {Thermodynamic Analysis of a Zero-Emission Combustion Cycle for Energy Transition},
+  journal = {Cell Reports Physical Science},
+  year = {2023},
+  doi = {10.1016/j.xcrp.2023.101514}
 }
 ```
 
 ## External references
-1. Publication
-2. 4TU repository
-3. MSc thesis
+1. K. Dave, A. Gangoli Rao, Thermodynamic analysis of a zero-emission combustion cycle for energy transition, Cell Reports Physical Science. (2023). https://doi.org/10.1016/j.xcrp.2023.101514.
+2. The original source code released with this publication is archived at 4TU.ResearchData and can be access via https://doi.org/10.4121/d8887792-0e15-4f41-8263-875927562371.
+3. More information about this project can also be found in my [MSc thesis](https://repository.tudelft.nl/islandora/object/uuid%3Aaaa684ff-d22c-4482-bb2e-bbbd74336ab1) available at TU Delft's Education repository.
 
 ## Installation
-The following are the minimum requisites based on the author's system configuration (using ***Windows 10***) :
+The following are the minimum requisites based on the author's system configuration:
 
 #### Minimum requisites
 - Matlab 2021b
@@ -202,4 +199,7 @@ Technische Universiteit Delft hereby disclaims all copyright interest in the **H
 Henri Werij, Faculty of Aerospace Engineering, Technische Universiteit Delft.
 
 © [2023], [Kaushal Dave]
+
+## How to contribute
+If you want to contribute to this repository, feel free to fork it and add in commented text the copyright and licensing information of your contributions. Feel free to contact the author(s) regarding any questions/requests related to contents of this repository.
 
