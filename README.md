@@ -18,11 +18,17 @@ If you use this model in your work, I request you to acknowledge it in your rese
 
 ```bibtex
 @article{DAVE2023101514,
-  author = {Kaushal Dave and Arvind Gangoli Rao},
-  title = {Thermodynamic Analysis of a Zero-Emission Combustion Cycle for Energy Transition},
-  journal = {Cell Reports Physical Science},
-  year = {2023},
-  doi = {10.1016/j.xcrp.2023.101514}
+	title = {Thermodynamic analysis of a zero-emission combustion cycle for energy transition},
+	journal = {Cell Reports Physical Science},
+	volume = {4},
+	number = {8},
+	pages = {101514},
+	year = {2023},
+	issn = {2666-3864},
+	doi = {https://doi.org/10.1016/j.xcrp.2023.101514},
+	url = {https://www.sciencedirect.com/science/article/pii/S2666386423002989},
+	author = {Kaushal Dave and Arvind {Gangoli Rao}},
+	keywords = {energy transition, zero-emission power cycle, supercritical-CO2 cycle, H2/O2 combustion, oxy-fuel combustion, seasonal energy storage, distributed power},
 }
 ```
 
